@@ -26,6 +26,5 @@ class AdminRegisterTabFragment: Fragment(R.layout.admin_register_tab_fragment) {
         adminName.animate().translationX(0F).alpha(1F).setDuration(800).setStartDelay(300).start()
         adminStaffNumber.animate().translationX(0F).alpha(1F).setDuration(800).setStartDelay(400).start()
         adminRegisterBtn.animate().translationX(0F).alpha(1F).setDuration(800).setStartDelay(500).start()
-
     }
 }

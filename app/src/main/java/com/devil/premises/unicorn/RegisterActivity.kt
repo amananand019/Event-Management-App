@@ -5,12 +5,12 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_register.*
 
-class MainActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_register)
 
 //        registerTabLayout.addTab(registerTabLayout.newTab().setText("Student Login"))
 //        registerTabLayout.addTab(registerTabLayout.newTab().setText("Admin Login"))
