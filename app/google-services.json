@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "843600585350",
+    "project_id": "unicorn-e3e9b",
+    "storage_bucket": "unicorn-e3e9b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:843600585350:android:56742fe4dfbad0b96c2707",
+        "android_client_info": {
+          "package_name": "com.devil.premises.unicorn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "843600585350-tp5gc3sk7k30ucqhlk9td6d5fgtl2v9b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxOUywBaqkQVDZEUBIIRNoQWjssjThgzg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "843600585350-tp5gc3sk7k30ucqhlk9td6d5fgtl2v9b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
