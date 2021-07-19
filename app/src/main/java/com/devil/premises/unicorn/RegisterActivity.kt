@@ -1,11 +1,20 @@
 package com.devil.premises.unicorn
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_register.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,5 +50,29 @@ class RegisterActivity : AppCompatActivity() {
             super.onBackPressed()
         else
             viewPager.currentItem = viewPager.currentItem - 1
+    }
+
+    override fun onStart() {
+        val mAuth = FirebaseAuth.getInstance().currentUser
+        val users = FirebaseDatabase.getInstance().getReference("users")
+        progressBarRegister.visibility = View.VISIBLE
+        if (mAuth != null) {
+            users.child(mAuth.uid).get().addOnSuccessListener {
+                Log.i("TAG", "onStart: Got value ${it.value}")
+                val user = it.child("user").value
+                Log.i("TAG", "onStart: $user")
+
+                if(user == "admin"){
+                    startActivity(Intent(this,AdminHomeActivity::class.java))
+                    finish()
+                }else{
+
+                    startActivity(Intent(this,StudentHomeActivity::class.java))
+                    finish()
+                }
+            }
+        }
+        progressBarRegister.visibility = View.INVISIBLE
+        super.onStart()
     }
 }

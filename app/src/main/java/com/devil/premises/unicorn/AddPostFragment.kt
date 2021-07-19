@@ -2,6 +2,5 @@ package com.devil.premises.unicorn
 
 import androidx.fragment.app.Fragment
 
-class HomeFragment: Fragment(R.layout.fragment_home) {
-
+class AddPostFragment: Fragment(R.layout.fragment_add_post) {
 }

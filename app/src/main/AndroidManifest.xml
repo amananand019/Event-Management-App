@@ -9,9 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Unicorn">
-        <activity
-            android:name=".HomeActivity">
-        </activity>
+        <activity android:name=".AdminHomeActivity"></activity>
+        <activity android:name=".StudentHomeActivity"></activity>
         <activity android:name=".PhoneAuthActivity" />
         <activity android:name=".RegisterActivity">
             <intent-filter>
