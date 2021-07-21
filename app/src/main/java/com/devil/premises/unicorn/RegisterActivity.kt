@@ -13,6 +13,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.coroutines.delay
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -55,7 +56,6 @@ class RegisterActivity : AppCompatActivity() {
     override fun onStart() {
         val mAuth = FirebaseAuth.getInstance().currentUser
         val users = FirebaseDatabase.getInstance().getReference("users")
-        progressBarRegister.visibility = View.VISIBLE
         if (mAuth != null) {
             users.child(mAuth.uid).get().addOnSuccessListener {
                 Log.i("TAG", "onStart: Got value ${it.value}")
@@ -72,7 +72,6 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
         }
-        progressBarRegister.visibility = View.INVISIBLE
         super.onStart()
     }
 }

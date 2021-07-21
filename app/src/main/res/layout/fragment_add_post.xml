@@ -1,18 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#D5CCE6">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Post"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Post"
+            android:textSize="30sp"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center_horizontal"/>
+
+        <EditText
+            android:id="@+id/postTitle"
+            android:hint="Add post title"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_bg"
+            android:layout_marginHorizontal="40dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="20dp"
+            android:layout_marginTop="40dp"/>
+
+        <EditText
+            android:id="@+id/postDesc"
+            android:hint="Add post description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_bg"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="20dp"
+            android:inputType="textMultiLine"
+            android:lines="6"
+            android:minLines="6"
+            android:scrollbars="vertical"
+            android:gravity="top|left"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp" />
+
+        <ImageView
+            android:id="@+id/postImage"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/progress_bar_animation"
+            android:visibility="gone" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addPostImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_add_a_photo"
+            android:visibility="visible"/>
+
+        <Button
+            android:id="@+id/postUploadBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload"
+            android:background="@drawable/button_bg"
+            android:layout_margin="30dp"/>
+
+    </LinearLayout>
+
+</ScrollView>
