@@ -16,6 +16,7 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import kotlinx.android.synthetic.main.fragment_add_post.*
 
 private const val PERMISSION_ALL = 1
@@ -69,6 +70,14 @@ class AddPostFragment: Fragment(R.layout.fragment_add_post) {
             }else{
                 Toast.makeText(context, "Please, Enter title and description of the post", Toast.LENGTH_LONG).show()
             }
+
+            var chipNavigationBar = activity?.findViewById<ChipNavigationBar>(R.id.adminChipBottomNavMenu)
+            chipNavigationBar?.setItemSelected(R.id.bottom_nav_home, true)
+
+            val fragmentTransaction = parentFragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.adminHomeFragmentContainer, HomeFragment())
+            fragmentTransaction.commit()
+
         }
     }
 
@@ -102,6 +111,7 @@ class AddPostFragment: Fragment(R.layout.fragment_add_post) {
     }
 
     private fun upload(uri: Uri){
+        Toast.makeText(context, "Wait for Image to Load", Toast.LENGTH_LONG).show()
         val riversRef = FirebaseStorage.getInstance().reference.child("Temp/" + System.currentTimeMillis() + ".png")
         // Register observers to listen for when the download is done or if it fails
         riversRef.putFile(uri).addOnFailureListener {
@@ -112,8 +122,6 @@ class AddPostFragment: Fragment(R.layout.fragment_add_post) {
                 postUri = it.toString()
                 Glide.with(this).load(it).into(postImage)
             }
-
-
         }
     }
 }
