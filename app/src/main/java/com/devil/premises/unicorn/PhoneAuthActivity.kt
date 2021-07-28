@@ -104,6 +104,7 @@ class PhoneAuthActivity : AppCompatActivity() {
                 }else{
                     linearProgressIndicator.visibility = View.INVISIBLE
                     Toast.makeText(this, "Login Failed!", Toast.LENGTH_SHORT).show()
+                    finish()
                 }
             }
     }

@@ -13,11 +13,13 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import kotlinx.android.synthetic.main.fragment_add_post.*
+import java.text.SimpleDateFormat
 
 private const val PERMISSION_ALL = 1
 private const val TAG = "AddPostFragment"
@@ -32,6 +34,21 @@ class AddPostFragment: Fragment(R.layout.fragment_add_post) {
             android.Manifest.permission.READ_EXTERNAL_STORAGE,
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
             android.Manifest.permission.CAMERA)
+
+        val picker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Select Date")
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .build()
+
+        datePicker.setOnClickListener {
+            picker.show(parentFragmentManager, TAG)
+        }
+
+        var date = ""
+        picker.addOnPositiveButtonClickListener {
+            datePicker.text = picker.headerText
+            date = picker.headerText.toString()
+        }
 
         addPostImage.setOnClickListener {
             if(!hasPermissions(requireContext(), PERMISSIONS)){
@@ -55,28 +72,34 @@ class AddPostFragment: Fragment(R.layout.fragment_add_post) {
 
         postUploadBtn.setOnClickListener {
             if(postTitle.text.isNotEmpty() && postDesc.text.isNotEmpty()){
-                val post = mutableMapOf<String, String>()
-                post["title"] = postTitle.text.toString()
-                post["desc"] = postDesc.text.toString()
-                post["image"] = postUri.toString()
-                post["owner"] = FirebaseAuth.getInstance().currentUser!!.uid
+                if(date != ""){
+                    val post = mutableMapOf<String, String>()
+                    post["title"] = postTitle.text.toString()
+                    post["desc"] = postDesc.text.toString()
+                    post["image"] = postUri
+                    post["owner"] = FirebaseAuth.getInstance().currentUser!!.uid
+                    post["date"] = date
 
-                val postRef = FirebaseDatabase.getInstance().getReference("posts")
-                postRef.push().setValue(post)
-                    .addOnCompleteListener {
-                        Log.i("Post Child Added", "onViewCreated: $post")
-                    }
-                Toast.makeText(context, "Post Uploaded", Toast.LENGTH_SHORT).show()
+                    val postRef = FirebaseDatabase.getInstance().getReference("posts")
+                    postRef.push().setValue(post)
+                        .addOnCompleteListener {
+                            Log.i("Post Child Added", "onViewCreated: $post")
+                        }
+                    Toast.makeText(context, "Post Uploaded", Toast.LENGTH_SHORT).show()
+
+                    val chipNavigationBar = activity?.findViewById<ChipNavigationBar>(R.id.adminChipBottomNavMenu)
+                    chipNavigationBar?.setItemSelected(R.id.bottom_nav_home, true)
+
+                    val fragmentTransaction = parentFragmentManager.beginTransaction()
+                    fragmentTransaction.replace(R.id.adminHomeFragmentContainer, HomeFragment())
+                    fragmentTransaction.commit()
+                }else{
+                    Toast.makeText(context, "Please select date for event.", Toast.LENGTH_LONG).show()
+                }
+
             }else{
                 Toast.makeText(context, "Please, Enter title and description of the post", Toast.LENGTH_LONG).show()
             }
-
-            var chipNavigationBar = activity?.findViewById<ChipNavigationBar>(R.id.adminChipBottomNavMenu)
-            chipNavigationBar?.setItemSelected(R.id.bottom_nav_home, true)
-
-            val fragmentTransaction = parentFragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.adminHomeFragmentContainer, HomeFragment())
-            fragmentTransaction.commit()
 
         }
     }
