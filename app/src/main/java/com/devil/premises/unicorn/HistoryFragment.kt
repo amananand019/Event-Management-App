@@ -16,6 +16,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_history.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 private const val TAG = "HistoryFragment"
@@ -24,6 +25,7 @@ class HistoryFragment: Fragment(R.layout.fragment_history) {
     private lateinit var firebaseRecyclerAdapter: FirebaseRecyclerAdapter<Post, RViewHolder>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val today = Date()
 
         ref = FirebaseDatabase.getInstance().reference.child("posts")
         val ll = LinearLayoutManager(requireContext())
@@ -33,6 +35,7 @@ class HistoryFragment: Fragment(R.layout.fragment_history) {
         val userRef = FirebaseDatabase.getInstance().reference.child("users")
 
 //        var stack = Stack<DataSnapshot>()
+
         val option = FirebaseRecyclerOptions.Builder<Post>().setQuery(ref, Post::class.java).build()
         firebaseRecyclerAdapter = object : FirebaseRecyclerAdapter<Post, RViewHolder>(option){
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RViewHolder {
@@ -45,33 +48,42 @@ class HistoryFragment: Fragment(R.layout.fragment_history) {
                     override fun onDataChange(snapshot: DataSnapshot) {
 
 //                        stack.push(snapshot)
+                        val date = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).parse(model.date)
+                        if(!today.before(date)) {
+                            holder.rTitle.text = model.title
+                            holder.rDate.text = model.date
 
-                        holder.rTitle.text = model.title
-                        holder.rDate.text = model.date
+                            userRef.child(model.owner).get().addOnSuccessListener {
+                                holder.rOwner.text = it.child("name").value.toString()
+                            }
 
-                        userRef.child(model.owner).get().addOnSuccessListener {
-                            holder.rOwner.text = it.child("name").value.toString()
-                        }
+                            if (model.image == "No image") {
+                                holder.rImage.visibility = View.GONE
+                            } else {
+                                Glide.with(holder.itemView.context).load(model.image)
+                                    .into(holder.rImage)
+                            }
 
-                        if(model.image == "No image"){
-                            holder.rImage.visibility = View.GONE
+                            holder.itemView.setOnClickListener {
+                                val bundle = Bundle()
+                                bundle.putString("title", model.title)
+                                bundle.putString("date", model.date)
+                                bundle.putString("desc", model.desc)
+                                bundle.putString("image", model.image)
+                                bundle.putString("owner", holder.rOwner.text.toString())
+
+                                val intent = Intent(context, PostDescriptionActivity::class.java)
+                                intent.putExtras(bundle)
+                                startActivity(intent)
+                            }
                         }else{
-                            Glide.with(holder.itemView.context).load(model.image).into(holder.rImage)
+                            holder.itemView.visibility = View.GONE
+                            val params = holder.itemView.layoutParams
+                            params.height = 0
+                            params.width = 0
+                            holder.itemView.layoutParams = params
+                            //holder.itemView.layoutParams = RecyclerView.LayoutParams(0,0)
                         }
-
-                        holder.itemView.setOnClickListener {
-                            val bundle = Bundle()
-                            bundle.putString("title", model.title)
-                            bundle.putString("date", model.date)
-                            bundle.putString("desc", model.desc)
-                            bundle.putString("image", model.image)
-                            bundle.putString("owner", holder.rOwner.text.toString())
-
-                            val intent = Intent(context, PostDescriptionActivity::class.java)
-                            intent.putExtras(bundle)
-                            startActivity(intent)
-                        }
-
                     }
 
                     override fun onCancelled(error: DatabaseError) {

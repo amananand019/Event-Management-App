@@ -5,6 +5,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.admin_register_tab_fragment.*
 
 class AdminRegisterTabFragment: Fragment(R.layout.admin_register_tab_fragment) {
@@ -42,9 +47,24 @@ class AdminRegisterTabFragment: Fragment(R.layout.admin_register_tab_fragment) {
                 bundle.putString("id",id)
                 bundle.putString("user", "admin")
 
-                val intent = Intent(activity, PhoneAuthActivity::class.java)
-                intent.putExtras(bundle)
-                startActivity(intent)
+                val ref = Firebase.database.reference.child("admins")
+                ref.addListenerForSingleValueEvent(object : ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if(snapshot.child(phoneNumber).exists()){
+                            val intent = Intent(activity, PhoneAuthActivity::class.java)
+                            intent.putExtras(bundle)
+                            startActivity(intent)
+                        }else{
+                            Toast.makeText(context, "You are not an admin, Please try using student login", Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
+
             }else{
                 Toast.makeText(activity, "Please fill all the details..", Toast.LENGTH_LONG).show()
             }

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#D5CCE6">
 
     <LinearLayout
@@ -15,14 +13,14 @@
             android:id="@+id/post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Post"
+            android:text="@string/add_event"
             android:textSize="30sp"
             android:layout_marginTop="40dp"
             android:layout_gravity="center_horizontal"/>
 
         <EditText
             android:id="@+id/postTitle"
-            android:hint="Add post title"
+            android:hint="@string/add_post_title"
             android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +32,7 @@
 
         <EditText
             android:id="@+id/postDesc"
-            android:hint="Add post description"
+            android:hint="@string/add_post_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_bg"
@@ -52,7 +50,7 @@
             android:id="@+id/datePicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select Date"
+            android:text="@string/select_date"
             android:layout_gravity="end"
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="20dp"/>
@@ -80,7 +78,7 @@
             android:id="@+id/postUploadBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Upload"
+            android:text="@string/upload"
             android:background="@drawable/button_bg"
             android:layout_margin="30dp"/>
 

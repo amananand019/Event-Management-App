@@ -7,6 +7,8 @@
     tools:context=".PostDescriptionActivity"
     android:layout_margin="5dp">
 
+    <!--    TODO: Design this fragment Properly -->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -80,7 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/ic_launcher"
-                    android:scaleType="center"
+                    android:scaleType="centerInside"
                     android:layout_below="@id/postOwner"
                     android:layout_marginTop="5dp"/>
 
@@ -102,7 +104,6 @@
                     android:textStyle="bold"
                     android:layout_below="@id/textDesc"
                     android:layout_marginHorizontal="10dp"/>
-
 
             </RelativeLayout>
 

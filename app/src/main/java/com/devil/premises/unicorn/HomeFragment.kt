@@ -16,6 +16,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 private const val TAG = "HomeFragment"
@@ -32,11 +33,7 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
         ll.reverseLayout = true
         homeRecyclerView.layoutManager = ll
 
-//        val df = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
-//        val todayDate = Calendar.getInstance().toString()
-//        val format = SimpleDateFormat("dd-mm-yyyy", Locale.getDefault())
-//        val cal = Calendar.getInstance(Locale.ENGLISH)
-//        val date = DateFormat.format("dd-MM-yyyy", cal.timeInMillis).toString()
+        val today = Date()
 
         val option = FirebaseRecyclerOptions.Builder<Post>().setQuery(ref, Post::class.java).build()
         firebaseRecyclerAdapter = object : FirebaseRecyclerAdapter<Post, RViewHolder>(option){
@@ -48,10 +45,8 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
             override fun onBindViewHolder(holder: RViewHolder, position: Int, model: Post) {
                 ref.addValueEventListener(object : ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        //val eventDate = model.date
-//                        val date = SimpleDateFormat("dd-mm-yyyy", Locale.getDefault()).format(eventDate)
-                        //problem is here
-                        //if(format.parse(todayDate).before(format.parse(eventDate))){
+                        val date = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).parse(model.date)
+                        if(!today.after(date)){
                             holder.rTitle.text = model.title
                             holder.rDate.text = model.date
 
@@ -77,7 +72,14 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
                                 intent.putExtras(bundle)
                                 startActivity(intent)
                             }
-                        //}
+                        }else{
+                            holder.itemView.visibility = View.GONE
+                            val params = holder.itemView.layoutParams
+                            params.height = 0
+                            params.width = 0
+                            holder.itemView.layoutParams = params
+//                            holder.itemView.layoutParams = RecyclerView.LayoutParams(0,0)
+                        }
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -86,7 +88,6 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
                 })
             }
         }
-
 
         homeRecyclerView.adapter = firebaseRecyclerAdapter
     }

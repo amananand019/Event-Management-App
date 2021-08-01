@@ -21,7 +21,6 @@
                 android:id="@+id/postTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Post Title"
                 android:textColor="#000"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -31,7 +30,6 @@
                 android:id="@+id/textPostBy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Posted By "
                 android:layout_below="@id/postTitle"
                 android:layout_marginStart="20dp"/>
 
@@ -39,10 +37,9 @@
                 android:id="@+id/postOwner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Owner"
                 android:textStyle="italic"
                 android:layout_below="@id/postTitle"
-                android:layout_toRightOf="@id/textPostBy"
+                android:layout_toEndOf="@id/textPostBy"
                 android:textColor="#000"/>
 
             <LinearLayout
@@ -55,13 +52,12 @@
 
             <TextView
                 android:id="@+id/textDate"
-                android:text="Event "
+                android:text="@string/event"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/postDate"
-                android:text="Date"
                 android:textColor="#000"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -72,7 +68,6 @@
                 android:id="@+id/postImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
                 android:scaleType="center"
                 android:layout_below="@id/postOwner"
                 android:layout_marginTop="5dp"/>
